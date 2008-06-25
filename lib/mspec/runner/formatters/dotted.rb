@@ -55,11 +55,12 @@ class DottedFormatter
     @out.print(*args)
   end
 
+  # HACK: added to_s to workaround bug in not hiding message method
   def message(exc)
-    if exc.message.empty?
+    if exc.message.to_s.empty?
       "<No message>"
     elsif exc.class == ExpectationNotMetError
-      exc.message
+      exc.message.to_s
     else
       "#{exc.class}: #{exc.message}"
     end
