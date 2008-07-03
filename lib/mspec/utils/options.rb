@@ -96,6 +96,8 @@ class MSpecOptions
         @config[:target] = 'rbx'
       when 'j', 'jruby'
         @config[:target] = 'jruby'
+      when 'i','ironruby'
+        @config[:target] = 'ir'
       else
         @config[:target] = t
       end
@@ -107,6 +109,7 @@ class MSpecOptions
     separator "   'x' or 'rubinius' invokes ./shotgun/rubinius"
     separator "   'X' or 'rbx'      invokes rbx in PATH"
     separator "   'j' or 'jruby'    invokes jruby in PATH\n"
+    separator "   'i' or 'ironruby' invokes ir in PATH\n"
 
     on("-T", "--target-opt OPT", String,
        "Pass OPT as a flag to the target implementation") do |t|
@@ -147,6 +150,10 @@ class MSpecOptions
         @config[:formatter] = SpinnerFormatter
       when 'y', 'yaml'
         @config[:formatter] = YamlFormatter
+      when 'f', 'fail'
+        @config[:formatter] = FailureFormatter
+      when 'c','cov','coverage'
+        @config[:formatter] = CoverageFormatter
       else
         puts "Unknown format: #{o}"
         puts @parser
@@ -157,6 +164,8 @@ class MSpecOptions
     separator("       s, spec, specdoc         SpecdocFormatter")
     separator("       h, html,                 HtmlFormatter")
     separator("       d, dot, dotted           DottedFormatter")
+    separator("       c, cov, coverage         CoverageFormatter")
+    separator("       f, fail                  FailureFormatter")
     separator("       u, unit, unitdiff        UnitdiffFormatter")
     separator("       m, summary               SummaryFormatter")
     separator("       a, *, spin               SpinnerFormatter")

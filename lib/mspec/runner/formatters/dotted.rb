@@ -62,7 +62,7 @@ class DottedFormatter
     elsif exc.class == ExpectationNotMetError
       exc.message.to_s
     else
-      "#{exc.class}: #{exc.message}"
+      "#{exc.class}: #{exc.message.to_s}"
     end
   end
 

@@ -126,7 +126,7 @@ module MSpec
       register_exit 1
       if current and current.state
         current.state.exceptions << [msg, e]
-      else
+      elsif !$quiet_runner
         STDERR.write "\nAn exception occurred in #{msg}:\n#{e.class}: #{e.message.inspect}\n"
         STDERR.write "#{e.backtrace.join "\n"}"
       end
@@ -180,7 +180,7 @@ module MSpec
     file = retrieve :file
     tags_file = File.basename(file, '.*').sub(/_spec$/, '_tags') + '.txt'
 
-    m = file.match %r[.*spec/(.*)/.*_spec.rb]
+    m = file.match %r[.*[Ss]pec.?[\\/](.*)[\\/].*_spec.rb]
     path = File.join(path, m[1]) if m
     File.join path, tags_file
   end

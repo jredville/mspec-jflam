@@ -20,7 +20,8 @@ class Object
         ENV["TEMP"], ENV["USERPROFILE"] ].each do |dir|
         if dir and File.directory?(dir) and File.writable?(dir)
           temp = File.expand_path dir
-          temp = File.readlink temp if File.symlink? temp
+# IronRuby doesn't have File.readlink and File.symlink? implemented yet
+#          temp = File.readlink temp if File.symlink? temp
           @spec_temp_directory = temp
           break
         end

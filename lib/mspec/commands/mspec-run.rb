@@ -65,7 +65,8 @@ class MSpecRun < MSpecScript
   def run
     files = []
     @patterns.each do |item|
-      stat = File.stat(File.expand_path(item))
+      item = File.expand_path(item)
+      stat = File.stat(item)
       files << item if stat.file?
       files.concat(Dir[item+"/**/*_spec.rb"].sort) if stat.directory?
     end

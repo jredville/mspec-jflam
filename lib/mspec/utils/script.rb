@@ -3,6 +3,7 @@ require 'mspec/runner/formatters/dotted'
 # MSpecScript provides a skeleton for all the MSpec runner scripts.
 
 class MSpecScript
+  $exclusion_regex = /thread/i
   def self.config
     @config ||= { :path => ['.', 'spec'] }
   end
@@ -38,6 +39,8 @@ class MSpecScript
       file = File.join dir, name
       return Kernel.load(file) if File.exist? file
     end
+  rescue
+    false
   end
 
   def register
