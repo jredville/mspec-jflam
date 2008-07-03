@@ -84,7 +84,7 @@ describe MSpecCI, "#run" do
     stat = mock("stat")
     stat.stub!(:file?).and_return(true)
     stat.stub!(:directory?).and_return(false)
-    File.stub!(:expand_path)
+    File.stub!(:expand_path).and_return("one","two")
     File.stub!(:stat).and_return(stat)
 
     @config = { :ci_files => ["one", "two"] }
