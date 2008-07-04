@@ -5,7 +5,10 @@ require 'mspec/runner/formatters/dotted'
 class MSpecScript
   $exclusion_regex = /thread/i
   def self.config
-    @config ||= { :path => ['.', 'spec'] }
+    @config ||= {
+      :path => ['.', 'spec'],
+      :config_ext => '.mspec'
+    }
   end
 
   def self.set(key, value)
@@ -33,11 +36,18 @@ class MSpecScript
   end
 
   def load(name)
-    return Kernel.load(name) if File.exist?(File.expand_path(name))
+    names = [name]
+    unless name[-6..-1] == config[:config_ext]
+      names << name + config[:config_ext]
+    end
 
-    config[:path].each do |dir|
-      file = File.join dir, name
-      return Kernel.load(file) if File.exist? file
+    names.each do |name|
+      return Kernel.load(name) if File.exist?(File.expand_path(name))
+
+      config[:path].each do |dir|
+        file = File.join dir, name
+        return Kernel.load(file) if File.exist? file
+      end
     end
   rescue
     false
