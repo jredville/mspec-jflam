@@ -16,8 +16,12 @@
 class Object
   def tmp(name)
     unless @spec_temp_directory
-      [ "/private/tmp", "/tmp", "/var/tmp", ENV["TMPDIR"], ENV["TMP"],
-        ENV["TEMP"], ENV["USERPROFILE"] ].each do |dir|
+      # Respect environment variables before guessing. Use home directory last.
+      # Windows interprets /tmp as C:\tmp, which isn't writeable, but Ruby
+      # doesn't recognize that.
+      [  ENV["TMPDIR"], ENV["TMP"], ENV["TEMP"], 
+         "/private/tmp", "/tmp", "/var/tmp",
+         ENV["USERPROFILE"] ].each do |dir|
         if dir and File.directory?(dir) and File.writable?(dir)
           temp = File.expand_path dir
 # IronRuby doesn't have File.readlink and File.symlink? implemented yet
